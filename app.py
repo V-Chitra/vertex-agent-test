@@ -6,21 +6,35 @@ import requests
 from vertexai.preview import reasoning_engines
 
 
-vertexai.init(project="chitra-v-project", location="us-central1", staging_bucket="gs://cv-bucket-1")
+vertexai.init(project="chitra-v-project", location="us-west1", staging_bucket="gs://cv-bucket-1")
 #### defining all tools
-def get_exchange_rate(
-    currency_from: str = "USD",
-    currency_to: str = "EUR",
-    currency_date: str = "latest",
-):
-    """Retrieves the exchange rate between two currencies on a specified date."""
-    import requests
+class SimpleAdditionApp:
+    def query(self, a: int, b: int) -> str:
+        """Query the application.
 
-    response = requests.get(
-        f"https://api.frankfurter.app/{currency_date}",
-        params={"from": currency_from, "to": currency_to},
-    )
-    return response.json()
+        Args:
+            a: The first input number
+            b: The second input number
+
+        Returns:
+            int: The additional result.
+        """
+
+        return f"{int(a)} + {int(b)} is {int(a + b)}"
+
+# Locally test
+# app = SimpleAdditionApp()
+# app.query(a=1, b=2)
+
+# Create a remote app with reasoning engine.
+# This may take 1-2 minutes to finish.
+reasoning_engine = reasoning_engines.ReasoningEngine.create(
+    SimpleAdditionApp(),
+    display_name="Demo Addition App",
+    description="A simple demo addition app",
+    requirements=[],
+    extra_packages=[],
+)
 
 ##### end of tools
 
@@ -41,28 +55,6 @@ def predict():
     response = model.predict(prompt, **parameters)
     return jsonify(response)
 
-
-##### defining agentic relationships
-
-agent = reasoning_engines.LangchainAgent(
-    model=model,
-    tools=[get_exchange_rate],
-)
-
-remote_agent = reasoning_engines.ReasoningEngine.create(
-    agent,
-    requirements=[
-        "google-cloud-aiplatform==1.51.0",
-        "langchain==0.1.20",
-        "langchain-google-vertexai==1.0.3",
-        "cloudpickle==3.0.0",
-        "pydantic==2.7.1",
-        "requests",
-    ],
-)
-
-
-###### end of agentic relationships
 
 if __name__ == "__main__":
     app.run(port=8080, host='0.0.0.0', debug=True)
