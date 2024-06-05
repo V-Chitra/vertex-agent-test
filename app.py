@@ -5,8 +5,12 @@ from flask import jsonify
 import requests
 from vertexai.preview import reasoning_engines
 
+PROJECT_ID = "chitra-agent-project"  # @param {type:"string"}
+LOCATION = "us-central1"  # @param {type:"string"}
+STAGING_BUCKET = "gs://grcv-bucket"  # @param {type:"string"}
 
-vertexai.init(project="chitra-v-project", location="us-west1", staging_bucket="gs://cv-bucket-1")
+vertexai.init(project=PROJECT_ID, location=LOCATION, staging_bucket=STAGING_BUCKET)
+
 #### defining all tools
 class SimpleAdditionApp:
     def query(self, a: int, b: int) -> str:
