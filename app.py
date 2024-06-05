@@ -1,6 +1,7 @@
 import vertexai
 from vertexai.language_models import TextGenerationModel
 from flask import Flask, request
+from flask import jsonify
 
 vertexai.init(project="chitra-v-project", location="us-central1")
 
@@ -19,7 +20,7 @@ def predict():
     prompt = request.data
     prompt = "this is something I'm trying"
     response = model.predict(prompt, **parameters)
-    return response
+    return jsonify(response)
 
 if __name__ == "__main__":
     app.run(port=8080, host='0.0.0.0', debug=True)
