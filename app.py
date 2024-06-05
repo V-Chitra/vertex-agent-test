@@ -6,7 +6,7 @@ import requests
 from vertexai.preview import reasoning_engines
 
 
-vertexai.init(project="chitra-v-project", location="us-central1")
+vertexai.init(project="chitra-v-project", location="us-central1", staging_bucket="gs://cv-bucket-1")
 #### defining all tools
 def get_exchange_rate(
     currency_from: str = "USD",
