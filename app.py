@@ -61,10 +61,7 @@ remote_agent = reasoning_engines.ReasoningEngine.create(
     ],
 )
 
-def query():
-    remote_agent.query(
-    input="What's the exchange rate from US dollars to Swedish currency today?"
-)
+
 ###### end of agentic relationships
 
 if __name__ == "__main__":
