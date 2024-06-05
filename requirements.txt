@@ -1,8 +1,6 @@
-google-cloud-aiplatform
+google-cloud-aiplatform[reasoningengine,langchain]
 flask
 google-cloud-logging
-langchain
-langchain-google-vertexai
 cloudpickle
 pydantic
 requests
